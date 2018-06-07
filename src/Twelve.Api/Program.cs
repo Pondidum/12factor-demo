@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Consul;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Formatting.Json;
 
 namespace Twelve.Api
 {
@@ -18,6 +21,7 @@ namespace Twelve.Api
 				.UseStartup<Startup>()
 				.UseUrls("http://localhost:5000")
 				.ConfigureServices(services => services.AddSingleton(BuildConfiguration()))
+				.ConfigureLogging(UseSerilogOnly)
 				.Build();
 
 		private static Configuration BuildConfiguration() => new ConfigurationBuilder()
@@ -25,5 +29,14 @@ namespace Twelve.Api
 			.AddConsul(prefix: "appsettings/twelve/")
 			.Build()
 			.Get<Configuration>() ?? new Configuration();
+
+		private static void UseSerilogOnly(ILoggingBuilder logging)
+		{
+			logging.ClearProviders();
+			logging.AddSerilog(new LoggerConfiguration()
+				.WriteTo.Console(new JsonFormatter())
+				.CreateLogger()
+			);
+		}
 	}
 }
