@@ -1,0 +1,14 @@
+filebeat.inputs:
+  - type: stdin
+    fields:
+      document_type: app
+      environment: ${ENVIRONMENT:local}
+output:
+  logstash:
+    enabled: true
+    hosts:
+      - "localhost:5044"
+    timeout: 15
+    ssl:
+      certificate_authorities:
+        - ./tools/filebeat/logstash.crt
