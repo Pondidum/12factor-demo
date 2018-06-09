@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Twelve.Api
 {
@@ -20,6 +15,11 @@ namespace Twelve.Api
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureServices(services => services
+                    .AddSingleton(new ConfigurationBuilder()
+                        .AddEnvironmentVariables(ev => ev.Prefix = "twelve:")
+                        .Build()
+                        .Get<Configuration>()))
                 .Build();
     }
 }
