@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Consul;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Twelve.Api
@@ -18,6 +19,7 @@ namespace Twelve.Api
                 .ConfigureServices(services => services
                     .AddSingleton(new ConfigurationBuilder()
                         .AddEnvironmentVariables(ev => ev.Prefix = "twelve:")
+                        .AddConsul(prefix: "appsettings/twelve/")
                         .Build()
                         .Get<Configuration>()))
                 .Build();
