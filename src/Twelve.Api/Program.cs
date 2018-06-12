@@ -6,22 +6,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Twelve.Api
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			BuildWebHost(args).Run();
+		}
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureServices(services => services
-                    .AddSingleton(new ConfigurationBuilder()
-                        .AddEnvironmentVariables(ev => ev.Prefix = "twelve:")
-                        .AddConsul(prefix: "appsettings/twelve/")
-                        .Build()
-                        .Get<Configuration>()))
-                .Build();
-    }
+		public static IWebHost BuildWebHost(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.ConfigureServices(services => services.AddSingleton(BuildConfiguration()))
+				.Build();
+
+		private static Configuration BuildConfiguration() => new ConfigurationBuilder()
+			.AddEnvironmentVariables(ev => ev.Prefix = "twelve:")
+			.AddConsul(prefix: "appsettings/twelve/")
+			.Build()
+			.Get<Configuration>() ?? new Configuration();
+	}
 }
