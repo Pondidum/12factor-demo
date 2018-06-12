@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Twelve.Api.Events
 {
 	public class EventsController : Controller
 	{
-		[HttpPost]
-		public IActionResult Post([FromBody] CreateEventRequest request)
-		{
-			return Json(request);
-		}
-	}
+		private readonly IMediator _mediator;
 
-	public class CreateEventRequest
-	{
-		public string Name { get; set; }
-		public IEnumerable<string> Tags { get; set; }
-		public DateTime Timestamp { get; set; }
+		public EventsController(IMediator mediator)
+		{
+			_mediator = mediator;
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Store([FromBody] CreateEventRequest request)
+		{
+			var resposne = await _mediator.Send(request);
+
+			return Created("/events/" + resposne.ID, null);
+		}
 	}
 }

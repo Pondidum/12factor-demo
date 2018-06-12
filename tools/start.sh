@@ -12,4 +12,17 @@ docker run \
     -e CONSUL_BIND_INTERFACE=eth0 \
     consul
 
+docker run \
+    -d --rm \
+    --name twelve_postgres \
+    -p 5432:5432 \
+    -e 'POSTGRES_PASSWORD=postgres' \
+    postgres:alpine
+
+
 # add required data
+
+curl \
+    -X PUT \
+    --data 'host=localhost;port=5432;database=postgres;user id=postgres;password=postgres' \
+    localhost:8500/v1/kv/appsettings/twelve/PostgresConnection
