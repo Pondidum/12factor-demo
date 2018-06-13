@@ -11,6 +11,7 @@
     <PackageReference Include="MediatR" Version="5.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
     <PackageReference Include="Consul.Microsoft.Extensions.Configuration" Version="0.0.2" />
     <PackageReference Include="Npgsql" Version="4.0.0" />

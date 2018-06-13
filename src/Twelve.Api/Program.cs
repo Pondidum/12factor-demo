@@ -16,6 +16,7 @@ namespace Twelve.Api
 		public static IWebHost BuildWebHost(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()
+				.UseUrls("http://localhost:5000")
 				.ConfigureServices(services => services.AddSingleton(BuildConfiguration()))
 				.Build();
 
