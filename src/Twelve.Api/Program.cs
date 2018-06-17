@@ -20,6 +20,7 @@ namespace Twelve.Api
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>()
 				.UseUrls("http://localhost:5000")
+				.SuppressStatusMessages(true)
 				.ConfigureServices(services => services.AddSingleton(BuildConfiguration()))
 				.ConfigureLogging(UseSerilogOnly)
 				.Build();

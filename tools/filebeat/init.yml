@@ -1,0 +1,2 @@
+output.elasticsearch:
+  hosts: ["localhost:9200"]
